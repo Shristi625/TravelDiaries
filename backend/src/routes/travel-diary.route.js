@@ -52,10 +52,10 @@ router
   .put(
     apiRateLimiter,
     authenticate(["user", "admin"]),
+    uploadSingle("coverImage"),
     validateDiaryIdParam,
     validateUpdateTravelDiary,
     validateRequest,
-    uploadSingle("coverImage"),
     asyncHandler(updateDiaryController)
   );
 router

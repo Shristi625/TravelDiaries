@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authRateLimiter } from "../middlewares/rate-limiting.middleware.js";
+import authenticate from "../middlewares/authenticate.middleware.js";
 import {
   signUpValidator,
   loginValidator,
@@ -9,6 +10,7 @@ import asyncHandler from "../middlewares/async-handler.middleware.js";
 import {
   signUpController,
   loginController,
+  logoutController,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -31,6 +33,8 @@ router
     asyncHandler(loginController)
   );
 
-// router.route("/logout").post();
+router
+  .route("/logout")
+  .post(authRateLimiter, authenticate(), asyncHandler(logoutController));
 
 export default router;

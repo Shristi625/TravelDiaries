@@ -35,7 +35,41 @@ export const signUpController = async (req, res, next) => {
   successResponse(res, 201, "User registered successfully", {
     userId: newUser._id,
     email: newUser.email,
+    token,
   });
 };
 
-export const loginController = async (req, res, next) => {};
+export const loginController = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    return next(new APIError(401, "Invalid email or password"));
+  }
+
+  const isPasswordValid = await user.comparePassword(password, user.password);
+
+  if (!isPasswordValid) {
+    return next(new APIError(401, "Invalid email or password"));
+  }
+
+  const token = generateToken({
+    userId: user._id,
+    role: user.role,
+  });
+
+  cookie.setCookie(res, "token", token);
+
+  successResponse(res, 200, "Login successful", {
+    userId: user._id,
+    email: user.email,
+    token,
+  });
+};
+
+export const logoutController = (req, res, next) => {
+  cookie.clearCookie(res, "token");
+
+  successResponse(res, 200, "Logout successful");
+};

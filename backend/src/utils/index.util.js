@@ -1,3 +1,18 @@
+import jwt from "jsonwebtoken";
+
+export const generateToken = (payload) => {
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: process.env.EXPIRES_IN,
+  });
+};
+
+export const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
+};
 export class APIError extends Error {
   constructor(statusCode, message, error, stack) {
     super(message);

@@ -88,9 +88,5 @@ export const googleAuthController = async (req, res, next) => {
 
   cookie.setCookie(res, "token", token);
 
-  successResponse(res, 200, "Google authentication successful", {
-    userId: user._id,
-    email: user.email,
-    token,
-  });
+  return res.redirect("http://localhost:3000/dashboard");
 };

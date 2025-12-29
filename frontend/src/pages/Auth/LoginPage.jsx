@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./LoginPage.css";
-import { login } from "../../services/auth";
+import { googleSignup, login } from "../../services/auth";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -71,8 +71,7 @@ const LoginPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    // Redirect to backend Google OAuth route
-    window.location.href = `${import.meta.env.VITE_API_BASE_URL}/auth/google`;
+    googleSignup();
   };
 
   const handleForgotPassword = (e) => {

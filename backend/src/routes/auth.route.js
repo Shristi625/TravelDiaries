@@ -45,7 +45,7 @@ router
 
 router.route("/google/callback").get(
   passport.authenticate("google", {
-    failureRedirect: "/login",
+    failureRedirect: "http://localhost:3000/login",
     session: false,
   }),
   asyncHandler(googleAuthController)

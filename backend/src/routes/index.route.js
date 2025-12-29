@@ -2,6 +2,7 @@ import { Router } from "express";
 import { successResponse } from "../utils/index.util.js";
 import mongoose from "mongoose";
 import authRoute from "./auth.route.js";
+import travelDiaryRoute from "./travel-diary.route.js";
 
 const router = Router();
 
@@ -33,6 +34,7 @@ router.route("/health").get((req, res, next) => {
 });
 
 router.use("/api/v1/auth", authRoute);
+router.use("/api/v1/travel-diaries", travelDiaryRoute);
 
 router.use((req, res, next) => {
   res.status(404).json({

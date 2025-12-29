@@ -8,7 +8,6 @@ import {
 
 export const signUpController = async (req, res, next) => {
   const { fullName, email, password, role, privacy, travelTips } = req.body;
-  console.log(req.body);
 
   const isUserExists = await User.findOne({ email });
 

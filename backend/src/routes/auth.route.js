@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 import { authRateLimiter } from "../middlewares/rate-limiting.middleware.js";
 import authenticate from "../middlewares/authenticate.middleware.js";
 import {
@@ -11,6 +12,7 @@ import {
   signUpController,
   loginController,
   logoutController,
+  googleAuthController,
 } from "../controllers/auth.controller.js";
 
 const router = Router();
@@ -36,5 +38,17 @@ router
 router
   .route("/logout")
   .post(authRateLimiter, authenticate(), asyncHandler(logoutController));
+
+router
+  .route("/google")
+  .get(passport.authenticate("google", { scope: ["profile", "email"] }));
+
+router.route("/google/callback").get(
+  passport.authenticate("google", {
+    failureRedirect: "/login",
+    session: false,
+  }),
+  asyncHandler(googleAuthController)
+);
 
 export default router;

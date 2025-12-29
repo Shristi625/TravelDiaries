@@ -73,3 +73,25 @@ export const logoutController = (req, res, next) => {
 
   successResponse(res, 200, "Logout successful");
 };
+
+export const googleAuthController = async (req, res, next) => {
+  const user = req.user;
+  console.log(user);
+
+  if (!user) {
+    return next(new APIError(401, "Google authentication failed"));
+  }
+
+  const token = generateToken({
+    userId: user._id,
+    role: user.role,
+  });
+
+  cookie.setCookie(res, "token", token);
+
+  successResponse(res, 200, "Google authentication successful", {
+    userId: user._id,
+    email: user.email,
+    token,
+  });
+};

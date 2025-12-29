@@ -34,6 +34,19 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    displayName: {
+      type: String,
+      trim: true,
+    },
+    avatar: {
+      type: String,
+      trim: true,
+    },
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
   },
   {
     timestamps: true,

@@ -1,8 +1,14 @@
 import User from "../models/user.model";
-import { APIError, successResponse } from "../utils/index.util";
+import {
+  APIError,
+  cookie,
+  generateToken,
+  successResponse,
+} from "../utils/index.util";
 
 export const signUpController = async (req, res, next) => {
   const { fullName, email, password, role, privacy, travelTips } = req.body;
+  console.log(req.body);
 
   const isUserExists = await User.findOne({ email });
 
@@ -18,6 +24,13 @@ export const signUpController = async (req, res, next) => {
     privacy,
     travelTips,
   });
+
+  const token = generateToken({
+    userId: newUser._id,
+    role: newUser.role,
+  });
+
+  cookie.setCookie(res, "token", token);
 
   successResponse(res, 201, "User registered successfully", {
     userId: newUser._id,

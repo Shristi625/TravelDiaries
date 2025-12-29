@@ -41,3 +41,23 @@ export const successResponse = (
     data,
   });
 };
+
+export const cookie = {
+  getOptions() {
+    return {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 12 * 60 * 60 * 1000,
+    };
+  },
+  setCookie(res, name, value, options) {
+    res.cookie(name, value, { ...this.getOptions(), ...options });
+  },
+  getCookie(req, name) {
+    return req.cookies[name];
+  },
+  clearCookie(res, name) {
+    res.clearCookie(name, this.getOptions());
+  },
+};

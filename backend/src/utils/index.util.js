@@ -64,19 +64,34 @@ export const cookie = {
   },
 };
 
-export const uploadToCloudinary = async (filePath, folder) => {
+export const uploadToCloudinary = async (fileBuffer, folder) => {
   try {
-    const result = await cloudinaryConfig.uploader.upload(filePath, {
-      folder,
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder,
+          resource_type: "auto",
+        },
+        (error, result) => {
+          if (error) {
+            console.error("Cloudinary upload error:", error);
+            reject(new Error("Cloudinary upload failed"));
+          } else {
+            const url = cloudinary.url(result.public_id, {
+              transformation: [
+                { quality: "auto", fetch_format: "webp" },
+                { width: 500, height: 500 },
+              ],
+            });
+            resolve({ public_id: result.public_id, url });
+          }
+        }
+      );
+
+      uploadStream.end(fileBuffer);
     });
-    const url = cloudinary.url(result.public_id, {
-      transformation: [
-        { quality: "auto", fetch_format: "webp" },
-        { width: 500, height: 500 },
-      ],
-    });
-    return { public_id: result.public_id, url };
   } catch (error) {
+    console.error("Cloudinary upload error:", error);
     throw new Error("Cloudinary upload failed");
   }
 };

@@ -8,10 +8,13 @@ import {
 export const createDiaryController = async (req, res, next) => {
   try {
     const { title, location, travelDate, story } = req.body;
-    const { coverImage } = req.file;
+    
+    if (!req.file) {
+      return next(new APIError(400, "Cover image is required"));
+    }
 
     const uploadImage = await uploadToCloudinary(
-      coverImage.path,
+      req.file.buffer,
       "travel-diaries"
     );
 

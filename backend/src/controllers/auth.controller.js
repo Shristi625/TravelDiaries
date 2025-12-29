@@ -48,7 +48,7 @@ export const loginController = async (req, res, next) => {
     return next(new APIError(401, "Invalid email or password"));
   }
 
-  const isPasswordValid = await user.comparePassword(password, user.password);
+  const isPasswordValid = await user.comparePassword(password);
 
   if (!isPasswordValid) {
     return next(new APIError(401, "Invalid email or password"));

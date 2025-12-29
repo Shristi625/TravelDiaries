@@ -5,19 +5,16 @@ const userSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
-      required: true,
       trim: true,
     },
     email: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
       trim: true,
     },
     password: {
       type: String,
-      required: true,
       select: false,
     },
     role: {
@@ -27,7 +24,9 @@ const userSchema = new mongoose.Schema(
     },
     privacy: {
       type: Boolean,
-      required: [true, "Privacy agreement is required"],
+      required: function () {
+        return !this.googleId;
+      },
       default: false,
     },
     travelTips: {
@@ -59,11 +58,8 @@ userSchema.pre("save", function () {
   this.password = bcrypt.hashSync(this.password, salt);
 });
 
-userSchema.methods.comparePassword = function (
-  candidatePassword,
-  userPassword
-) {
-  return bcrypt.compareSync(candidatePassword, userPassword);
+userSchema.methods.comparePassword = function (candidatePassword) {
+  return bcrypt.compareSync(candidatePassword, this.password);
 };
 const User = mongoose.model("User", userSchema);
 

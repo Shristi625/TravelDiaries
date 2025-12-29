@@ -31,6 +31,6 @@ router
     asyncHandler(loginController)
   );
 
-router.route("/logout").post();
+// router.route("/logout").post();
 
 export default router;

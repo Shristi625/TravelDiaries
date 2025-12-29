@@ -1,10 +1,10 @@
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 import {
   APIError,
   cookie,
   generateToken,
   successResponse,
-} from "../utils/index.util";
+} from "../utils/index.util.js";
 
 export const signUpController = async (req, res, next) => {
   const { fullName, email, password, role, privacy, travelTips } = req.body;

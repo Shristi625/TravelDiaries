@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { successResponse } from "../utils/index.util";
+import { successResponse } from "../utils/index.util.js";
 import mongoose from "mongoose";
 import authRoute from "./auth.route.js";
 

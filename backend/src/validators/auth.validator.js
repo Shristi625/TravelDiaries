@@ -34,4 +34,9 @@ export const loginValidator = [
   body("email").isEmail().withMessage("Enter a valid email"),
 
   body("password").notEmpty().withMessage("Password is required"),
+
+  body("rememberMe")
+    .optional()
+    .isBoolean()
+    .withMessage("Remember Me must be a boolean value"),
 ];

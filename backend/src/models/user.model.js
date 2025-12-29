@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema(
       },
       default: false,
     },
+    rememberMe: {
+      type: Boolean,
+      default: false,
+    },
     travelTips: {
       type: Boolean,
       default: false,

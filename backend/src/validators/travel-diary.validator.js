@@ -16,7 +16,7 @@ export const validateTravelDiary = [
     .withMessage("Location is required")
     .isLength({ max: 200 })
     .withMessage("Location can be at most 200 characters long"),
-  body("date")
+  body("travelDate")
     .notEmpty()
     .withMessage("Date is required")
     .isISO8601()
@@ -40,7 +40,7 @@ export const validateUpdateTravelDiary = [
     .optional()
     .isLength({ max: 200 })
     .withMessage("Location can be at most 200 characters long"),
-  body("date")
+  body("travelDate")
     .optional()
     .isISO8601()
     .withMessage("Date must be a valid ISO 8601 date"),

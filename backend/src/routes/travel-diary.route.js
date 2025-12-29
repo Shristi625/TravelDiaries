@@ -1,21 +1,21 @@
 import { Router } from "express";
-import { apiRateLimiter } from "../middlewares/rate-limiting.middleware";
-import authenticate from "../middlewares/authenticate.middleware";
-import asyncHandler from "../middlewares/async-handler.middleware";
+import { apiRateLimiter } from "../middlewares/rate-limiting.middleware.js";
+import authenticate from "../middlewares/authenticate.middleware.js";
+import asyncHandler from "../middlewares/async-handler.middleware.js";
 import {
   createDiaryController,
   getDiaryByIdController,
   getMyDiariesController,
   deleteDiaryController,
   updateDiaryController,
-} from "../controllers/travel-diary.controller";
+} from "../controllers/travel-diary.controller.js";
 import {
   validateDiaryIdParam,
   validateTravelDiary,
   validateUpdateTravelDiary,
-} from "../validators/travel-diary.validator";
-import validateRequest from "../middlewares/validate-request.middleware";
-import { uploadSingle } from "../middlewares/multer.middleware";
+} from "../validators/travel-diary.validator.js";
+import validateRequest from "../middlewares/validate-request.middleware.js";
+import { uploadSingle } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 

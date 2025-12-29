@@ -1,17 +1,31 @@
-import TravelDiary from "../models/travel-diary.model";
-import { successResponse, APIError } from "../utils/index.util";
+import TravelDiary from "../models/travel-diary.model.js";
+import {
+  successResponse,
+  APIError,
+  uploadToCloudinary,
+} from "../utils/index.util.js";
 
 export const createDiaryController = async (req, res, next) => {
   try {
     const { title, location, travelDate, story } = req.body;
     const { coverImage } = req.file;
+
+    const uploadImage = await uploadToCloudinary(
+      coverImage.path,
+      "travel-diaries"
+    );
+
+    const date = new Date(travelDate);
+    if (isNaN(date.getTime())) {
+      return next(new APIError(400, "Invalid travel date"));
+    }
     const newDiary = await TravelDiary.create({
       userId: req.user.userId,
       title,
       location,
-      travelDate,
+      travelDate: date,
       story,
-      coverImage,
+      coverImage: uploadImage.url,
     });
 
     successResponse(res, 201, "Diary created successfully", newDiary);

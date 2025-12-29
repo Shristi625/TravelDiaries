@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import cloudinaryConfig from "../config/cloudinary.js";
+import { v2 as cloudinary } from "cloudinary";
 
 export const generateToken = (payload) => {
   return jwt.sign(payload, process.env.JWT_SECRET, {
@@ -60,4 +62,21 @@ export const cookie = {
   clearCookie(res, name) {
     res.clearCookie(name, this.getOptions());
   },
+};
+
+export const uploadToCloudinary = async (filePath, folder) => {
+  try {
+    const result = await cloudinaryConfig.uploader.upload(filePath, {
+      folder,
+    });
+    const url = cloudinary.url(result.public_id, {
+      transformation: [
+        { quality: "auto", fetch_format: "webp" },
+        { width: 500, height: 500 },
+      ],
+    });
+    return { public_id: result.public_id, url };
+  } catch (error) {
+    throw new Error("Cloudinary upload failed");
+  }
 };

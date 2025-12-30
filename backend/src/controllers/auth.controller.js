@@ -34,6 +34,7 @@ export const signUpController = async (req, res, next) => {
   successResponse(res, 201, "User registered successfully", {
     userId: newUser._id,
     email: newUser.email,
+    fullName: newUser.fullName,
     token,
   });
 };
@@ -63,6 +64,7 @@ export const loginController = async (req, res, next) => {
   successResponse(res, 200, "Login successful", {
     userId: user._id,
     email: user.email,
+    fullName: user.fullName,
     token,
   });
 };

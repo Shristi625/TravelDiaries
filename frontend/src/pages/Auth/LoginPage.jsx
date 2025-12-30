@@ -34,28 +34,29 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      // Send login request to backend
       const payload = {
         email,
         password,
-        rememberMe, // optional if your backend uses it for cookie expiration
+        rememberMe,
       };
 
       const response = await login(payload);
 
-      // Backend sets httpOnly cookie automatically
       showToast("Login successful!", "success");
 
-      // Optionally store user info (without token) for frontend use
+      localStorage.setItem("token", response.data.data.token);
+
       localStorage.setItem(
-        "travelDiariesUser",
-        JSON.stringify(response.data.user)
+        "user",
+        JSON.stringify({
+          id: response.data.data.userId,
+          fullName: response.data.data.fullName,
+          email: response.data.data.email,
+        })
       );
 
-      // Redirect to dashboard
       navigate("/dashboard");
 
-      // Reset form
       setEmail("");
       setPassword("");
       setRememberMe(false);

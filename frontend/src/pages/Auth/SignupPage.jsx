@@ -81,9 +81,15 @@ const SignupPage = () => {
 
       const response = await signup(payload);
 
+      localStorage.setItem("token", response.data.data.token);
+
       localStorage.setItem(
-        "travelDiariesUser",
-        JSON.stringify(response.data.user)
+        "user",
+        JSON.stringify({
+          id: response.data.data.userId,
+          fullName: response.data.data.fullName,
+          email: response.data.data.email,
+        })
       );
 
       navigate("/dashboard");

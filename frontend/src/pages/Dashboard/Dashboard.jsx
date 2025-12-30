@@ -10,6 +10,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getMyTravelDiaries().then((res) => {
+      console.log(res);
       setRecentEntries(res.data.data);
     });
   });
